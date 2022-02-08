@@ -1,1 +1,0 @@
-CMakeLists.txt not found in C:\AiSD\Лаба № 1 Задание № 12\123\3\StitchedTreeFS Select CMakeLists.txt
