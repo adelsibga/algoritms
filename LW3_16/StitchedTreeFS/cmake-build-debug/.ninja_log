@@ -1,0 +1,4 @@
+# ninja log v5
+1	1211	6661231032587785	CMakeFiles/StitchedTreeFS.dir/main.cpp.obj	7e9c4e74eb75e60a
+15	1501	6661231035480417	CMakeFiles/StitchedTreeFS.dir/lib/tree_functions/TreeFunctions.cpp.obj	69bc087643b8f432
+1501	1691	6661231037332589	StitchedTreeFS.exe	5061fd25456ae28b

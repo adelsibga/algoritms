@@ -1,3 +1,3 @@
-C:/AiSD/StitchedTreeFS/cmake-build-debug/CMakeFiles/StitchedTreeFS.dir
-C:/AiSD/StitchedTreeFS/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/AiSD/StitchedTreeFS/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Soft/second course/Algorithms/LW3_16/StitchedTreeFS/cmake-build-debug/CMakeFiles/StitchedTreeFS.dir
+C:/Soft/second course/Algorithms/LW3_16/StitchedTreeFS/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Soft/second course/Algorithms/LW3_16/StitchedTreeFS/cmake-build-debug/CMakeFiles/rebuild_cache.dir

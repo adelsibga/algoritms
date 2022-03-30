@@ -1,4 +1,4 @@
-# Install script for directory: C:/AiSD/StitchedTreeFS
+# Install script for directory: C:/Soft/second course/Algorithms/LW3_16/StitchedTreeFS
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/AiSD/StitchedTreeFS/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Soft/second course/Algorithms/LW3_16/StitchedTreeFS/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -4,8 +4,8 @@ void CreateTreeFromStream(std::istream& input, Tree& tree)
 {
     tree.top = nullptr;
     std::string line;
-    std::vector<std::pair<int, int>> valueMap{};
-    std::vector<std::pair<int, Node*>> nodesMap{};
+    std::vector<std::pair<int, int>> arrayOfNewNodesValues{};
+    std::vector<std::pair<int, Node*>> arrayOfNewNodes{};
 
     while (getline(input, line))
     {
@@ -21,45 +21,47 @@ void CreateTreeFromStream(std::istream& input, Tree& tree)
         ss >> stringValue;
         int value = std::stoi(stringValue);
 
-        valueMap.emplace_back(std::pair<int, int>(std::count(line.begin(), line.end(), ' '), value));
+        arrayOfNewNodesValues.emplace_back(std::pair<int, int>(std::count(line.begin(), line.end(), ' '), value));
     }
 
-    for (auto element: valueMap)
+    for (std::pair<int, int> element: arrayOfNewNodesValues)
     {
         if (element.first == 0)
         {
             tree.top = new Node();
             tree.top->value = element.second;
-            nodesMap.emplace_back(std::pair<int, Node*>(element.first, tree.top));
+            arrayOfNewNodes.emplace_back(std::pair<int, Node*>(element.first, tree.top));
 
             continue;
         }
 
-        auto parentFlag = std::find_if(nodesMap.begin(), nodesMap.end(), [element](std::pair<int, Node*> node) {
+        auto parentFlag = std::find_if(arrayOfNewNodes.begin(), arrayOfNewNodes.end(), [element](std::pair<int, Node*> node) {
             return element.first - node.first == 1;
         });
 
-        if (parentFlag != nodesMap.end())
+        if (parentFlag != arrayOfNewNodes.end())
         {
-            auto newNode = new Node();
-            newNode->value = element.second;
+            Node* node = new Node();
+
+            node->value = element.second;
+
             if (parentFlag->second->left == nullptr)
             {
-                parentFlag->second->left = newNode;
+                parentFlag->second->left = node;
             }
             else
             {
-                parentFlag->second->right = newNode;
+                parentFlag->second->right = node;
 
-                nodesMap.erase(++parentFlag, nodesMap.end());
+                arrayOfNewNodes.erase(++parentFlag, arrayOfNewNodes.end());
             }
 
-            if (nodesMap.rbegin()->first - element.first >= 1)
+            if (arrayOfNewNodes.rbegin()->first - element.first >= 1)
             {
-                nodesMap.erase(++parentFlag, nodesMap.end());
+                arrayOfNewNodes.erase(++parentFlag, arrayOfNewNodes.end());
             }
 
-            nodesMap.emplace_back(std::pair<int, Node*>(element.first, newNode));
+            arrayOfNewNodes.emplace_back(std::pair<int, Node*>(element.first, node));
         }
     }
 }
@@ -89,13 +91,13 @@ void Stitch(Node* tree)
     std::vector<Node*> nodesVector;
     FillStorageByStitchedNodes(nodesVector, tree);
 
-    for (auto index = 0; index < nodesVector.size(); index++)
+    for (int index = 0; index < nodesVector.size(); index++)
     {
         if (nodesVector[index]->right == nullptr
             && nodesVector[index]->left == nullptr
             && nodesVector.size() != index + 1)
         {
-            nodesVector[index]->tread = nodesVector[index + 1];
+            nodesVector[index]->stitch = nodesVector[index + 1];
         }
     }
 }
@@ -103,40 +105,47 @@ void Stitch(Node* tree)
 void ShowConnections(std::ostream &output, Node *tree)
 {
     std::vector<Node*> nodesVector;
+    bool isStitchedTree = false;
     FillStorageByStitchedNodes(nodesVector, tree);
 
-    for (auto index = 0; index < nodesVector.size(); index++)
+    for (int index = 0; index < nodesVector.size() - 1; index++)
     {
-        if (nodesVector[index]->tread != nullptr)
+        if (nodesVector[index]->stitch != nullptr)
         {
+            isStitchedTree = true;
             output << nodesVector[index]->value << " - " << nodesVector[index + 1]->value << std::endl;
         }
+    }
+
+    if (!isStitchedTree)
+    {
+        output << "There are no stitched nodes" << std::endl;
     }
 }
 
 void ShowStitchedTree(std::ostream &output, Node *tree)
 {
-    auto topNode = tree;
+    Node* node = tree;
 
-    while (topNode != nullptr)
+    while (node != nullptr)
     {
-        output << topNode->value << std::endl;
+        output << node->value << std::endl;
 
-        if (topNode->left != nullptr)
+        if (node->left != nullptr)
         {
-            topNode = topNode->left;
+            node = node->left;
 
             continue;
         }
 
-        if (topNode->right != nullptr)
+        if (node->right != nullptr)
         {
-            topNode = topNode->right;
+            node = node->right;
 
             continue;
         }
 
-        topNode = topNode->tread;
+        node = node->stitch;
     }
 }
 
@@ -153,30 +162,30 @@ void DeleteWholeTree(Node*& tree)
     }
 }
 
-void DeleteVertexByValue(const int& value, Node*& tree, bool& isVertexDeleted)
+void DeleteVertexByVertexValue(const int& value, Node*& topNode, bool& isVertexDeleted)
 {
-    if (tree == nullptr || isVertexDeleted)
+    if (topNode == nullptr || isVertexDeleted)
     {
         return;
     }
 
-    if (tree->value == value)
+    if (topNode->value == value)
     {
-        DeleteWholeTree(tree);
+        DeleteWholeTree(topNode);
         isVertexDeleted = true;
 
         return;
     }
 
-    DeleteVertexByValue(value, tree->right, isVertexDeleted);
-    DeleteVertexByValue(value, tree->left, isVertexDeleted);
+    DeleteVertexByVertexValue(value, topNode->right, isVertexDeleted);
+    DeleteVertexByVertexValue(value, topNode->left, isVertexDeleted);
 }
 
-void DeleteVertex(int vertex, Node *tree)
+void DeleteVertexByValue(int vertex, Node *tree)
 {
     bool isVertexDeleted = false;
 
-    DeleteVertexByValue(vertex, tree, isVertexDeleted);
+    DeleteVertexByVertexValue(vertex, tree, isVertexDeleted);
     Stitch(tree);
 }
 

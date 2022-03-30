@@ -11,39 +11,48 @@ int main()
 
     Tree tree = {};
 
-    CreateTreeFromStream(std::cin, tree);
-
-    std::cout << "All right! Now, pass  node for deleting" << std::endl;
-    int desiredNodeForDeleting;
-    std::string line;
-    std::string number;
-
-    std::cin >> line;
-    do
+    try
     {
-        std::istringstream ss(line);
-        ss >> number;
-        desiredNodeForDeleting = std::stoi(number);
+        CreateTreeFromStream(std::cin, tree);
 
-        std::cout << "Tree in storage" << std::endl;
-        ShowTree(std::cout, tree.top);
-        Stitch(tree.top);
-        std::cout << "Tree in stitched view" << std::endl;
-        ShowStitchedTree(std::cout, tree.top);
+        std::cout << "All right! Now, pass  node for deleting" << std::endl;
+        int desiredNodeForDeleting;
+        std::string line;
+        std::string number;
 
-        std::cout << "All stitches in tree nodes" << std::endl;
-        ShowConnections(std::cout, tree.top);
+        std::cin >> line;
+        do
+        {
+            std::istringstream ss(line);
+            ss >> number;
 
-        DeleteVertex(desiredNodeForDeleting, tree.top);
-        std::cout << "After deleting " << desiredNodeForDeleting << ":" << std::endl;
-        ShowTree(std::cout, tree.top);
+            desiredNodeForDeleting = std::stoi(number);
 
-        std::cout << "Stitched nodes:" << std::endl;
-        ShowConnections(std::cout, tree.top);
-        std::cout << "Pass vertex for deleting again or just type command <end> to close the program" << std::endl;
+            std::cout << "Tree in storage" << std::endl;
+            ShowTree(std::cout, tree.top);
+            Stitch(tree.top);
+            std::cout << "Tree in stitched view" << std::endl;
+            ShowStitchedTree(std::cout, tree.top);
+
+            std::cout << "All stitches in tree nodes" << std::endl;
+            ShowConnections(std::cout, tree.top);
+
+            DeleteVertexByValue(desiredNodeForDeleting, tree.top);
+            std::cout << "After deleting " << desiredNodeForDeleting << ":" << std::endl;
+            ShowTree(std::cout, tree.top);
+
+            std::cout << "Stitched nodes:" << std::endl;
+            ShowConnections(std::cout, tree.top);
+            std::cout << "Pass vertex for deleting again or just type command <end> to close the program" << std::endl;
+        } while (std::cin >> line && line != "end");
+
+        DeleteWholeTree(tree.top);
     }
-    while (std::cin >> line && line != "end");
+    catch (const std::exception &exception)
+    {
+        std::cout << "Error: " << exception.what() << std::endl;
+        return 1;
+    }
 
-    DeleteWholeTree(tree.top);
     return 0;
 }

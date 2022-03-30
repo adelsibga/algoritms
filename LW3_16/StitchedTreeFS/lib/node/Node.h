@@ -5,5 +5,5 @@ struct Node
     Node* left;
     Node* right;
     int value;
-    Node* tread;
+    Node* stitch;
 };

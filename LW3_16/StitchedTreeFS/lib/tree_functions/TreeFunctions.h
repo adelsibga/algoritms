@@ -15,6 +15,6 @@ void ShowStitchedTree(std::ostream& output, Node* tree);
 
 void ShowConnections(std::ostream& output, Node* tree);
 
-void DeleteVertex(int vertex, Node* tree);
+void DeleteVertexByValue(int vertex, Node* tree);
 
 void DeleteWholeTree(Node*& tree);
